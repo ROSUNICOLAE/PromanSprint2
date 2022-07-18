@@ -17,6 +17,14 @@ def index():
     return render_template('index.html')
 
 
+@app.route("/create-new-board")
+def create_board():
+    """
+    This is a one-pager which shows all the boards and cards
+    """
+    return render_template('create_board.html')
+
+
 @app.route("/api/boards")
 @json_response
 def get_boards():
