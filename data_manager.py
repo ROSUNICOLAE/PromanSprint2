@@ -3,6 +3,7 @@ import psycopg2
 import psycopg2.extras
 
 
+
 def establish_connection(connection_data=None):
     """
     Create a database connection based on the :connection_data: parameter
@@ -35,7 +36,7 @@ def get_connection_data(db_name=None):
         db_name = os.environ.get('MY_PSQL_DBNAME')
 
     return {
-        'dbname': db_name,
+        'dbname': os.environ.get('MY_PSQL_DBNAME'),
         'user': os.environ.get('MY_PSQL_USER'),
         'host': os.environ.get('MY_PSQL_HOST'),
         'password': os.environ.get('MY_PSQL_PASSWORD')
@@ -58,3 +59,20 @@ def execute_select(statement, variables=None, fetchall=True):
             result_set = cursor.fetchall() if fetchall else cursor.fetchone()
     return result_set
 
+
+def execute_dml_statement(statement, variables=None):
+    """
+    Execute data manipulation query statement (optionally parameterized)
+
+    :statment: SQL statement
+
+    :variables:  optional parameter dict"""
+    result = None
+    with establish_connection() as conn:
+        with conn.cursor() as cursor:
+            cursor.execute(statement, variables)
+            try:
+                result = cursor.fetchone()
+            except psycopg2.ProgrammingError as pe:
+                pass
+    return result

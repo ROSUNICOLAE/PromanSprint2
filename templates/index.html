@@ -1,276 +1,121 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>ProMan</title>
+{% extends 'layout.html' %}
+{% block title %}
+    Main Page
+{% endblock %}
+{% block link %}
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon/favicon.ico') }}">
+    <link rel="icon" type="image/png" sizes="32x32"
+          href="{{ url_for('static', filename='favicon/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="96x96"
+          href="{{ url_for('static', filename='favicon/favicon-96x96.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16"
+          href="{{ url_for('static', filename='favicon/favicon-16x16.png') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
+    <script type="module" src="{{ url_for('static', filename='js/main.js') }}" defer></script>
+{% endblock %}
 
-        <link rel="shortcut icon" href="{{ url_for('static', filename='favicon/favicon.ico') }}">
-        <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='favicon/favicon-32x32.png') }}">
-        <link rel="icon" type="image/png" sizes="96x96" href="{{ url_for('static', filename='favicon/favicon-96x96.png') }}">
-        <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='favicon/favicon-16x16.png') }}">
-
-        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
-        <script type="module" src="{{ url_for('static', filename='js/main.js') }}" defer></script>
-    </head>
-    <body>
-    <h1>ProMan</h1>
-    <!-- Emmet: .board-container>section.board*3>.board-header>(span.board-title{Board $}+button.board-add{Add Card}+button.board-toggle>i.fas.fa-chevron-down)^.board-columns>((.board-column>.board-column-title{New}+.board-column-content>.card*5>(.card-remove>i.fas.fa-trash-alt^.card-title{Card $}))+(.board-column>.board-column-title{In Progress}+.board-column-content>.card*5>(.card-remove>i.fas.fa-trash-alt^.card-title{Card $}))+(.board-column>.board-column-title{Testing}+.board-column-content>.card*5>(.card-remove>i.fas.fa-trash-alt^.card-title{Card $}))+(.board-column>.board-column-title{Done}+.board-column-content>.card*5>(.card-remove>i.fas.fa-trash-alt^.card-title{Card $}))) -->
-
-    <div class="board-container">
-        <button class="board-add"><a href="{{ url_for('create_board') }}" class="board-add">Create Board</a></button>
-        <section class="board">
-            <div class="board-header"><span class="board-title">Board 1</span>
-                <button class="board-add">Add Card</button>
-                <button class="board-toggle"><i class="fas fa-chevron-down"></i></button>
-            </div>
-            <div class="board-columns">
-                <div class="board-column">
-                    <div class="board-column-title">New</div>
-                    <div class="board-column-content">
-                        <div class="card">
-                            <div class="card-remove"><i class="fas fa-trash-alt"></i></div>
-                            <div class="card-title">Card 1</div>
-                        </div>
-                        <div class="card">
-                            <div class="card-remove"><i class="fas fa-trash-alt"></i></div>
-                            <div class="card-title">Card 2</div>
-                        </div>
-                    </div>
+{% block content %}
+    <div class="modal fade" id="new-board-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Create New Board</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
-                <div class="board-column">
-                    <div class="board-column-title">In Progress</div>
-                    <div class="board-column-content">
-                        <div class="card">
-                            <div class="card-remove"><i class="fas fa-trash-alt"></i></div>
-                            <div class="card-title">Card 1</div>
+                <div class="modal-body" id="modal-body">
+                    <form method="post" action="/api/boards/" id="form-board" hidden>
+                        <div class="form-group">
+                            <label for="board-title" class="col-form-label">Title:</label>
+                            <input type="text" class="form-control" id="board-title" placeholder="board name">
+                            <div id=is-logged" style="margin-top: 2vh">
+                            </div>
+                            <input type="submit" value="create" id="boardCreate" class="btn btn-primary"
+                                   style="background-color: #566DBA; border-color: #566DBA;margin-top:2vh">
                         </div>
-                    </div>
-                </div>
-                <div class="board-column">
-                    <div class="board-column-title">Testing</div>
-                    <div class="board-column-content">
-                        <div class="card">
-                            <div class="card-remove"><i class="fas fa-trash-alt"></i></div>
-                            <div class="card-title">Card 1</div>
+                    </form>
+                    <form method="post" action="/api/boards/cards" id="form-card" hidden>
+                        <div class="form-group">
+                            <label for="card-title" class="col-form-label">Title:</label>
+                            <input type="text" class="form-control" id="card-title" placeholder="card name">
+                            <input type="submit" value="create" id="cardCreate" class="btn btn-primary"
+                                   style="background-color: #566DBA; border-color: #566DBA;margin-top:2vh">
                         </div>
-                        <div class="card">
-                            <div class="card-remove"><i class="fas fa-trash-alt"></i></div>
-                            <div class="card-title">Card 2</div>
-                        </div>
-                        <div class="card">
-                            <div class="card-remove"><i class="fas fa-trash-alt"></i></div>
-                            <div class="card-title">Card 3</div>
-                        </div>
-                        <div class="card">
-                            <div class="card-remove"><i class="fas fa-trash-alt"></i></div>
-                            <div class="card-title">Card 4</div>
-                        </div>
-                        <div class="card">
-                            <div class="card-remove"><i class="fas fa-trash-alt"></i></div>
-                            <div class="card-title">Card 5</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="board-column">
-                    <div class="board-column-title">Done</div>
-                    <div class="board-column-content">
-                        <div class="card">
-                            <div class="card-remove"><i class="fas fa-trash-alt"></i></div>
-                            <div class="card-title">Card 1</div>
-                        </div>
-                        <div class="card">
-                            <div class="card-remove"><i class="fas fa-trash-alt"></i></div>
-                            <div class="card-title">Card 2</div>
-                        </div>
-                        <div class="card">
-                            <div class="card-remove"><i class="fas fa-trash-alt"></i></div>
-                            <div class="card-title">Card 3</div>
-                        </div>
-                        <div class="card">
-                            <div class="card-remove"><i class="fas fa-trash-alt"></i></div>
-                            <div class="card-title">Card 4</div>
-                        </div>
-                        <div class="card">
-                            <div class="card-remove"><i class="fas fa-trash-alt"></i></div>
-                            <div class="card-title">Card 5</div>
-                        </div>
-                        <div class="card">
-                            <div class="card-remove"><i class="fas fa-trash-alt"></i></div>
-                            <div class="card-title">Card 6</div>
-                        </div>
-                    </div>
+                    </form>
                 </div>
             </div>
-        </section>
-        <section class="board">
-            <div class="board-header"><span class="board-title">Board 2</span>
-                <button class="board-add">Add Card</button>
-                <button class="board-toggle"><i class="fas fa-chevron-down"></i></button>
-            </div>
-            <div class="board-columns">
-                <div class="board-column">
-                    <div class="board-column-title">New</div>
-                    <div class="board-column-content">
-                        <div class="card">
-                            <div class="card-remove"><i class="fas fa-trash-alt"></i></div>
-                            <div class="card-title">Card 1</div>
-                        </div>
-                        <div class="card">
-                            <div class="card-remove"><i class="fas fa-trash-alt"></i></div>
-                            <div class="card-title">Card 2</div>
-                        </div>
-                        <div class="card">
-                            <div class="card-remove"><i class="fas fa-trash-alt"></i></div>
-                            <div class="card-title">Card 3</div>
-                        </div>
-                        <div class="card">
-                            <div class="card-remove"><i class="fas fa-trash-alt"></i></div>
-                            <div class="card-title">Card 4</div>
-                        </div>
-                        <div class="card">
-                            <div class="card-remove"><i class="fas fa-trash-alt"></i></div>
-                            <div class="card-title">Card 5</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="board-column">
-                    <div class="board-column-title">In Progress</div>
-                    <div class="board-column-content"></div>
-                </div>
-                <div class="board-column">
-                    <div class="board-column-title">Testing</div>
-                    <div class="board-column-content">
-                        <div class="card">
-                            <div class="card-remove"><i class="fas fa-trash-alt"></i></div>
-                            <div class="card-title">Card 1</div>
-                        </div>
-                        <div class="card">
-                            <div class="card-remove"><i class="fas fa-trash-alt"></i></div>
-                            <div class="card-title">Card 2</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="board-column">
-                    <div class="board-column-title">Done</div>
-                    <div class="board-column-content">
-                        <div class="card">
-                            <div class="card-remove"><i class="fas fa-trash-alt"></i></div>
-                            <div class="card-title">Card 1</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <section class="board">
-            <div class="board-header"><span class="board-title">Board 3</span>
-                <button class="board-add">Add Card</button>
-                <button class="board-toggle"><i class="fas fa-chevron-down"></i></button>
-            </div>
-            <div class="board-columns">
-                <div class="board-column">
-                    <div class="board-column-title">New</div>
-                    <div class="board-column-content">
-                        <div class="card">
-                            <div class="card-remove"><i class="fas fa-trash-alt"></i></div>
-                            <div class="card-title">Card 1</div>
-                        </div>
-                        <div class="card">
-                            <div class="card-remove"><i class="fas fa-trash-alt"></i></div>
-                            <div class="card-title">Card 2</div>
-                        </div>
-                        <div class="card">
-                            <div class="card-remove"><i class="fas fa-trash-alt"></i></div>
-                            <div class="card-title">Card 3</div>
-                        </div>
-                        <div class="card">
-                            <div class="card-remove"><i class="fas fa-trash-alt"></i></div>
-                            <div class="card-title">Card 4</div>
-                        </div>
-                        <div class="card">
-                            <div class="card-remove"><i class="fas fa-trash-alt"></i></div>
-                            <div class="card-title">Card 5</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="board-column">
-                    <div class="board-column-title">In Progress</div>
-                    <div class="board-column-content">
-                        <div class="card">
-                            <div class="card-remove"><i class="fas fa-trash-alt"></i></div>
-                            <div class="card-title">Card 1</div>
-                        </div>
-                        <div class="card">
-                            <div class="card-remove"><i class="fas fa-trash-alt"></i></div>
-                            <div class="card-title">Card 2</div>
-                        </div>
-                        <div class="card">
-                            <div class="card-remove"><i class="fas fa-trash-alt"></i></div>
-                            <div class="card-title">Card 3</div>
-                        </div>
-                        <div class="card">
-                            <div class="card-remove"><i class="fas fa-trash-alt"></i></div>
-                            <div class="card-title">Card 4</div>
-                        </div>
-                        <div class="card">
-                            <div class="card-remove"><i class="fas fa-trash-alt"></i></div>
-                            <div class="card-title">Card 5</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="board-column">
-                    <div class="board-column-title">Testing</div>
-                    <div class="board-column-content">
-                        <div class="card">
-                            <div class="card-remove"><i class="fas fa-trash-alt"></i></div>
-                            <div class="card-title">Card 1</div>
-                        </div>
-                        <div class="card">
-                            <div class="card-remove"><i class="fas fa-trash-alt"></i></div>
-                            <div class="card-title">Card 2</div>
-                        </div>
-                        <div class="card">
-                            <div class="card-remove"><i class="fas fa-trash-alt"></i></div>
-                            <div class="card-title">Card 3</div>
-                        </div>
-                        <div class="card">
-                            <div class="card-remove"><i class="fas fa-trash-alt"></i></div>
-                            <div class="card-title">Card 4</div>
-                        </div>
-                        <div class="card">
-                            <div class="card-remove"><i class="fas fa-trash-alt"></i></div>
-                            <div class="card-title">Card 5</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="board-column">
-                    <div class="board-column-title">Done</div>
-                    <div class="board-column-content">
-                        <div class="card">
-                            <div class="card-remove"><i class="fas fa-trash-alt"></i></div>
-                            <div class="card-title">Card 1</div>
-                        </div>
-                        <div class="card">
-                            <div class="card-remove"><i class="fas fa-trash-alt"></i></div>
-                            <div class="card-title">Card 2</div>
-                        </div>
-                        <div class="card">
-                            <div class="card-remove"><i class="fas fa-trash-alt"></i></div>
-                            <div class="card-title">Card 3</div>
-                        </div>
-                        <div class="card">
-                            <div class="card-remove"><i class="fas fa-trash-alt"></i></div>
-                            <div class="card-title">Card 4</div>
-                        </div>
-                        <div class="card">
-                            <div class="card-remove"><i class="fas fa-trash-alt"></i></div>
-                            <div class="card-title">Card 5</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+        </div>
     </div>
-</body>
-</html>
+
+    <div class="modal fade" id="archived-cards-modal" tabindex="-1" role="dialog"
+         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document" style="width:40vh;">
+            <div class="modal-content" style="margin-bottom:40vh">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Archived Cards</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="archive-cards-container" id="archived-cards-container"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-dark btn-sm" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content" style="height: 40vh; margin-bottom:20vh">
+          <div class="modal-header border-bottom-0">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body text-center">
+              <form action='/api/register/user' method='POST' id="register-form" hidden>
+        <label for="email-register" class="h5">USERNAME</label>
+        <input type="email" id="email-register" name="email" placeholder="email"/>
+        <label for="password-register" class="h5">PASSWORD</label>
+        <input type='password' id="password-register" name="password" placeholder="password"/>
+              <div id="not_valid_info_register" class="not_valid" hidden>username taken</div>
+        <input type='submit' value='register' class="btn btn-primary"
+               style="background-color: #566DBA; border-color: #566DBA;margin-top:2vh; width: 15vh; text-align: center"/>
+    </form>
+          <form action='/api/login/user' method='POST' id="login-form" hidden>
+        <label for="email-login" class="h5">USERNAME</label>
+        <input type="email" id="email-login" name="email" placeholder="email"/>
+        <label for="password-login" class="h5">PASSWORD</label>
+        <input type='password' id="password-login" name="password" placeholder="password"/>
+        <div id="not_valid_info_login" class="not_valid" hidden>wrong login or password</div>
+        <input type='submit' value='login' class="btn btn-primary"
+               style="background-color: #566DBA; border-color: #566DBA;margin-top:2vh; width:15vh; text-align: center"/>
+    </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" id="information-modal" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+          <div class="modal-header border-bottom-0">
+              <h5 class="modal-title" id="register-info">Successfully registered</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="root"></div>
+
+
+{% endblock %}

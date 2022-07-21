@@ -1,0 +1,14 @@
+#register-form, #login-form{
+    z-index: 20;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -20%);
+}
+#register-form input, #login-form input {
+    margin-bottom: 15px;
+    width: 30vh;
+    height: 5vh;
+}

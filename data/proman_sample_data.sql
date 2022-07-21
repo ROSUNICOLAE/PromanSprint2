@@ -27,12 +27,14 @@ DROP TABLE IF EXISTS cards;
 
 CREATE TABLE statuses (
     id       SERIAL PRIMARY KEY     NOT NULL,
-    title    VARCHAR(200)           NOT NULL
+    title    VARCHAR(200)           NOT NULL,
+    board_id INTEGER                NOT NULL
 );
 
 CREATE TABLE boards (
     id          SERIAL PRIMARY KEY  NOT NULL,
-    title       VARCHAR(200)        NOT NULL
+    title       VARCHAR(200)        NOT NULL,
+    owner       VARCHAR(200)
 );
 
 CREATE TABLE cards (
@@ -40,9 +42,16 @@ CREATE TABLE cards (
     board_id    INTEGER             NOT NULL,
     status_id   INTEGER             NOT NULL,
     title       VARCHAR (200)       NOT NULL,
-    card_order  INTEGER             NOT NULL
+    card_order  INTEGER             NOT NULL,
+    archived    BOOLEAN DEFAULT false
 );
 
+CREATE TABLE users
+(
+    id       SERIAL PRIMARY KEY NOT NULL,
+    username VARCHAR(200)       NOT NULL,
+    password VARCHAR(200)       NOT NULL
+);
 ---
 --- insert data
 ---
