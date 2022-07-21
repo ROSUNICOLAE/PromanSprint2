@@ -50,8 +50,8 @@ export let dataHandler = {
             await apiPost(url, data)
                 .then(() => {
                     document.getElementById("form-board").hidden = true
-                    boardHeader.innerHTML = "successfully added board <i class=\"bi bi-check2-all\"></i>"
-                    boardHeader.style.color = "#3cb371"
+                    boardHeader.innerHTML = "Successfully added board <i class=\"bi bi-check2-all\"></i>"
+                    boardHeader.style.color = "#FF5A5F"
                     setTimeout(function () {
                         dataHandler.reloadBoards();
                     }, 1000);
@@ -85,7 +85,7 @@ export let dataHandler = {
                 .then(() => {
                     document.getElementById("form-card").hidden = true
                     cardHeader.innerHTML = "successfully added card <i class=\"bi bi-check2-all\"></i>"
-                    cardHeader.style.color = "#3cb371"
+                    cardHeader.style.color = "#FF5A5F"
 
                     setTimeout(function () {
                         dataHandler.reloadBoards();
@@ -150,7 +150,7 @@ export let dataHandler = {
                         notValidInputInfo.hidden = true
                         document.getElementById("navbar-buttons").innerHTML = ""
                         dataHandler.reloadBoards()
-                        document.getElementById("register-header").innerHTML = `signed in as ${res[1]}`
+                        document.getElementById("register-header").innerHTML = `Signed in as ${res[1]}`
 
                     }
                 });
@@ -182,7 +182,7 @@ export let dataHandler = {
                 .then((res) => {
                     if (res) {
                         $(registerModal).modal('hide');
-                        registerInfo.innerHTML = "Successfully registered"
+                        registerInfo.innerHTML = "Signed Up successfully"
                         $(informationModal).modal();
                         notValidInputInfo.hidden = true
                     }

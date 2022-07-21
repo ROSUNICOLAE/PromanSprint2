@@ -114,7 +114,7 @@ function navbarLoggedBuilder() {
           </a>
         </li>
       <li class="nav-item ml-3">
-              <a class="nav-link navbar-btn" id="register-header">Signed in as ${login}</a>
+              <a class="nav-link navbar-btn" id="register-header" style="color: white">Signed in as ${login}</a>
         </li>`
 }
 

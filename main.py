@@ -4,11 +4,13 @@ from flask import Flask, render_template, url_for, session, request, jsonify
 import queires
 import util
 from util import json_response
+import os
+
 
 mimetypes.add_type('application/javascript', '.js')
 app = Flask(__name__)
 load_dotenv()
-app.secret_key = "GoodAfternoonVietnam"
+app.secret_key = os.urandom(24).hex()
 
 
 @app.route("/")
