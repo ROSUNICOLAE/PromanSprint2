@@ -25,17 +25,17 @@
       </div>
     </div>
     <form action = '/login' method ='POST' id="login-window">
-        <div>USERNAME</div>
+        <div>Username</div>
         <label for="email-register"></label>
         <input type="email" id="email-register" name="email" placeholder="email"/>
         {% if username_taken %}
-            <div class="wrong-data" hidden>usernameTaken</div>
+            <div class="wrong-data" hidden>This username is already taken</div>
         {% elif wrong_data %}
-            <div class="wrong-data" hidden>incorrectLoginData</div>
+            <div class="wrong-data" hidden>Invalid username or password</div>
         {% elif after_register %}
-            <div class="wrong-data" hidden>registerSuccessful</div>
+            <div class="wrong-data" hidden>Signed Up successful</div>
         {% endif %}
-        <div>PASSWORD</div>
+        <div>Password</div>
         <label for="password-register"></label>
         <input type='password' id="password-register" name="password" placeholder="password"/>
         <input type='submit' value='login' data-toggle="modal" data-target="#exampleModal"/>

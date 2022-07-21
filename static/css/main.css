@@ -1,5 +1,5 @@
 #boards {
-    background-color: green;
+    color: red;
 }
 :root{
     --border-radius: 3px;
@@ -20,8 +20,8 @@ body{
     margin-bottom: 4vh;
     margin-top: 4vh;
     overflow: scroll;
-
 }
+
 #content-row-container {
     height:70vh;
     background: #E8E9EB;

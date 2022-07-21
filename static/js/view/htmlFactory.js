@@ -110,28 +110,24 @@ function navbarLoggedBuilder() {
         </li>
         <li class="nav-item ml-3">
           <a class="nav-link border border-secondary rounded" id="logout" href="/api/logout" style="background-color: whitesmoke">
-              log out
+              Log Out
           </a>
         </li>
       <li class="nav-item ml-3">
-              <a class="nav-link navbar-btn" id="register-header">signed in as ${login}</a>
+              <a class="nav-link navbar-btn" id="register-header">Signed in as ${login}</a>
         </li>`
 }
 
 function navbarLogoutBuilder() {
-    return `<li class="nav-item ml-3">
-          <a class="nav-link navbar-btn border border-secondary rounded" id="create-board-button" style="background-color: whitesmoke">
-                New Board
-          </a>
-        </li>
+    return `
         <li class="nav-item ml-3">
           <a class="nav-link border border-secondary rounded" href="/login" id="login-button" style="background-color: whitesmoke">
-              login
+              Sign In 
             </a>
         </li>
       <li class="nav-item ml-3">
               <a class="nav-link navbar-btn border-secondary rounded" href="/register" id="register-button" style="background-color: whitesmoke">
-              register</a>
+              Sign Up</a>
         </li>`
 }
 
