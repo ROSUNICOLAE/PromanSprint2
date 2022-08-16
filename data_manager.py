@@ -3,6 +3,9 @@ import psycopg2
 import psycopg2.extras
 
 
+
+
+
 def establish_connection(connection_data=None):
     """
     Create a database connection based on the :connection_data: parameter
@@ -12,11 +15,8 @@ def establish_connection(connection_data=None):
     if connection_data is None:
         connection_data = get_connection_data()
     try:
-        connect_str = "dbname={} user={} host={} password={}".format(connection_data['dbname'],
-                                                                     connection_data['user'],
-                                                                     connection_data['host'],
-                                                                     connection_data['password'])
-        conn = psycopg2.connect(connect_str)
+        connection_string = os.environ.get('DATABASE_URL')
+        conn = psycopg2.connect(connection_string)
         conn.autocommit = True
     except psycopg2.DatabaseError as e:
         print("Cannot connect to database.")

@@ -133,7 +133,7 @@ export let boardsManager = {
                 "dblclick",
                 changeNameOfBoard
             );
-       domManager.addEventListener(
+      domManager.addEventListener(
                 `#add-column[data-board-id="${board.id}"]`,
                 "click",
                 dataHandler.createNewColumn
