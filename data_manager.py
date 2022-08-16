@@ -3,20 +3,9 @@ import psycopg2
 import psycopg2.extras
 
 
-
-
-
-def establish_connection(connection_data=None):
-    """
-    Create a database connection based on the :connection_data: parameter
-    :connection_data: Connection string attributes
-    :returns: psycopg2.connection
-    """
-    if connection_data is None:
-        connection_data = get_connection_data()
+def establish_connection():
     try:
-        connection_string = os.environ.get('DATABASE_URL')
-        conn = psycopg2.connect(connection_string)
+        conn = psycopg2.connect(os.environ.get("DATABASE_URL"))
         conn.autocommit = True
     except psycopg2.DatabaseError as e:
         print("Cannot connect to database.")
@@ -32,13 +21,13 @@ def get_connection_data(db_name=None):
     :db_name: optional parameter. By default it uses the environment variable value.
     """
     if db_name is None:
-        db_name = os.environ.get('MY_PSQL_DBNAME')
+        db_name = os.environ.get("MY_PSQL_DBNAME")
 
     return {
-        'dbname': os.environ.get('MY_PSQL_DBNAME'),
-        'user': os.environ.get('MY_PSQL_USER'),
-        'host': os.environ.get('MY_PSQL_HOST'),
-        'password': os.environ.get('MY_PSQL_PASSWORD')
+        "dbname": os.environ.get("MY_PSQL_DBNAME"),
+        "user": os.environ.get("MY_PSQL_USER"),
+        "host": os.environ.get("MY_PSQL_HOST"),
+        "password": os.environ.get("MY_PSQL_PASSWORD"),
     }
 
 
